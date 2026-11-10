@@ -1,0 +1,63 @@
+# Run:  docker compose up --build
+# Secrets come from a .env file next to this one (see .env.example). Never commit .env.
+x-common: &common
+  restart: unless-stopped
+  environment: &common-env
+    ASPNETCORE_ENVIRONMENT: Docker
+    Jwt__Key: ${JWT_KEY}
+    Jwt__EncryptionKey: ${JWT_ENCRYPTION_KEY}
+    Jwt__Issuer: ${JWT_ISSUER:-ECommerce.AuthAPI}
+    Jwt__Audience: ${JWT_AUDIENCE:-ECommerce.Services}
+
+services:
+  authapi:
+    <<: *common
+    build: { context: ., dockerfile: AuthAPI/Dockerfile }
+    image: ecommerce/authapi
+    environment:
+      <<: *common-env
+      ConnectionStrings__DefaultConnectionString: ${SQL_AUTH}
+    ports: ["7200:8080"]
+
+  productapi:
+    <<: *common
+    build: { context: ., dockerfile: ProductAPI/Dockerfile }
+    image: ecommerce/productapi
+    environment:
+      <<: *common-env
+      ConnectionStrings__DefaultConnectionString: ${SQL_PRODUCT}
+    ports: ["7002:8080"]
+
+  cartapi:
+    <<: *common
+    build: { context: ., dockerfile: CartAPI/Dockerfile }
+    image: ecommerce/cartapi
+    environment:
+      <<: *common-env
+      ConnectionStrings__DefaultConnectionString: ${SQL_CART}
+    ports: ["7004:8080"]
+
+  orderapi:
+    <<: *common
+    build: { context: ., dockerfile: OrderAPI/Dockerfile }
+    image: ecommerce/orderapi
+    environment:
+      <<: *common-env
+      ConnectionStrings__DefaultConnectionString: ${SQL_ORDER}
+    ports: ["7300:8080"]
+
+  paymentapi:
+    <<: *common
+    build: { context: ., dockerfile: PaymentAPI/Dockerfile }
+    image: ecommerce/paymentapi
+    environment:
+      <<: *common-env
+      ConnectionStrings__DefaultConnectionString: ${SQL_PAYMENT}
+    ports: ["7400:8080"]
+
+  gateway:
+    <<: *common
+    build: { context: ., dockerfile: gateway/Dockerfile }
+    image: ecommerce/gateway
+    ports: ["5000:8080"]
+    depends_on: [authapi, productapi, cartapi, orderapi, paymentapi]

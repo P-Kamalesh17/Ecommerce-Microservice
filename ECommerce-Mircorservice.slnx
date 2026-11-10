@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Services/">
+    <Project Path="AuthAPI/AuthAPI.csproj" />
+    <Project Path="CartAPI/CartAPI.csproj" />
+    <Project Path="OrderAPI/OrderAPI.csproj" />
+    <Project Path="PaymentAPI/PaymentAPI.csproj" />
+    <Project Path="ProductAPI/ProductAPI.csproj" />
+  </Folder>
+  <Folder Name="/Gateway/">
+    <Project Path="gateway/Gateway.csproj" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="ECommerce.Shared/ECommerce.Shared.csproj" />
+  </Folder>
+</Solution>
