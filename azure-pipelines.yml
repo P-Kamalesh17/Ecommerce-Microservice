@@ -1,0 +1,19 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Docker@2
+  displayName: Build and push Product API image
+  inputs:
+    containerRegistry: "Ecommerce"
+    repository: "productapi"
+    command: "buildAndPush"
+    Dockerfile: "$(Build.SourcesDirectory)/ProductAPI/Dockerfile"
+    buildContext: "$(Build.SourcesDirectory)"
+    tags: |
+      $(Build.BuildId)
