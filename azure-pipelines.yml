@@ -50,3 +50,14 @@ steps:
     buildContext: "$(Build.SourcesDirectory)"
     tags: |
       $(Build.BuildId)
+
+- task: Docker@2
+  displayName: Build and push Payment API image
+  inputs:
+    containerRegistry: "Ecommerce"
+    repository: "paymentapi"
+    command: "buildAndPush"
+    Dockerfile: "$(Build.SourcesDirectory)/PaymentAPI/Dockerfile"
+    buildContext: "$(Build.SourcesDirectory)"
+    tags: |
+      $(Build.BuildId)
