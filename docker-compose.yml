@@ -26,6 +26,7 @@ services:
     environment:
       <<: *common-env
       ConnectionStrings__DefaultConnectionString: ${SQL_PRODUCT}
+      Internal__ApiKey: ${INTERNAL_API_KEY}
     ports: ["7002:8080"]
 
   cartapi:
@@ -35,6 +36,7 @@ services:
     environment:
       <<: *common-env
       ConnectionStrings__DefaultConnectionString: ${SQL_CART}
+      ProductApi__BaseUrl: http://productapi:8080/
     ports: ["7004:8080"]
 
   orderapi:
@@ -44,6 +46,11 @@ services:
     environment:
       <<: *common-env
       ConnectionStrings__DefaultConnectionString: ${SQL_ORDER}
+      Internal__ApiKey: ${INTERNAL_API_KEY}
+      ProductApi__BaseUrl: http://productapi:8080/
+      CartApi__BaseUrl: http://cartapi:8080/
+      PaymentApi__BaseUrl: http://paymentapi:8080/
+      AuthApi__BaseUrl: http://authapi:8080/
     ports: ["7300:8080"]
 
   paymentapi:
@@ -53,6 +60,7 @@ services:
     environment:
       <<: *common-env
       ConnectionStrings__DefaultConnectionString: ${SQL_PAYMENT}
+      OrderApi__BaseUrl: http://orderapi:8080/
     ports: ["7400:8080"]
 
   gateway:

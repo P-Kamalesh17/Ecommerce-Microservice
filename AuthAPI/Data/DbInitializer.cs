@@ -60,7 +60,7 @@ namespace AuthAPI.Data
                     EmailConfirmed = true,
                     FullName = configuration[$"{section}:FullName"] ?? defaultFullName,
                     PhoneNumber = configuration[$"{section}:PhoneNumber"],
-                    Address = configuration[$"{section}:Address"]
+                    Address = configuration[$"{section}:Address"] ?? string.Empty
                 };
 
                 var createResult = await userManager.CreateAsync(user, password);
